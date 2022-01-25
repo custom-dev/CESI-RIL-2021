@@ -5,7 +5,7 @@ using System.Text;
 namespace Exercice04
 {
 	/// <summary>
-	/// Classe de base pour vos figures génometiques.
+	/// Classe de base pour vos figures géometriques.
 	/// 
 	/// Il faudra implémenter le périmètre et l'aire.
 	/// </summary>
