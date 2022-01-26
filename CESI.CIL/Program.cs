@@ -56,12 +56,8 @@ namespace CESI.CLI
 
 		private void DisplayHelp()
 		{
-			_writer.WriteLine("Aide");
-			_writer.WriteLine("Ensemble des commandes disponibles :");
-			_writer.WriteLine("- Hello");
-			_writer.WriteLine("- Add");
-			_writer.WriteLine("- Sub");
-
+			ActionAide action = new ActionAide(_writer);
+			action.Execute(null);
 		}
 
 		private static string ExtractActionName(string[] args)
