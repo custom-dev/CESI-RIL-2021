@@ -33,6 +33,9 @@ namespace CESI.CLI
 				case "Add":
 					ActionAdd(args);
 					break;
+				case "Sub":
+					ActionSub(args);
+					break;
 				default:
 					ActionUnknown();
 					break;
@@ -61,11 +64,18 @@ namespace CESI.CLI
 
 		private void ActionAdd(string[] args)
 		{
-			string s1 = args[1];
-			string s2 = args[2];
-			int number1 = int.Parse(s1);
-			int number2 = int.Parse(s2);
+			int number1 = int.Parse(args[1]);
+			int number2 = int.Parse(args[2]);
 			int result = number1 + number2;
+
+			_writer.WriteLine(result.ToString());
+		}
+
+		private void ActionSub(string[] args)
+		{
+			int number1 = int.Parse(args[1]);
+			int number2 = int.Parse(args[2]);
+			int result = number1 - number2;
 
 			_writer.WriteLine(result.ToString());
 		}

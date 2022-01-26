@@ -58,5 +58,15 @@ namespace CESI.CLI_TEST
 
 			sortie.Should().Be("15\r\n");
 		}
+
+		[TestMethod]
+		public void ShouldSubNumbers()
+		{
+			_program.Execute(new string[] { "Sub", "5", "10" });
+
+			string sortie = _writer.ToString();
+
+			sortie.Should().Be("-5\r\n");
+		}
 	}
 }
