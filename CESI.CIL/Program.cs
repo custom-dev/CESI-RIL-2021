@@ -20,7 +20,21 @@ namespace CESI.CLI
 
 		public void Execute(string[] args)
 		{
-			_writer.WriteLine("Aide");
+			string actionName = ExtractActionName(args);
+
+			if (actionName == "Hello")
+			{
+				_writer.WriteLine("Hello World !");
+			}
+			else
+			{
+				_writer.WriteLine("Aide");
+			}
+		}
+
+		private static string ExtractActionName(string[] args)
+		{
+			return (args != null && args.Length > 0) ? args[0] : String.Empty;
 		}
 	}
 }

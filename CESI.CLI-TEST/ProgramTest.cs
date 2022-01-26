@@ -9,17 +9,34 @@ namespace CESI.CLI_TEST
 	[TestClass]
 	public class ProgramTest
 	{
+		private TextWriter _writer;
+		private Program _program;
+
+		[TestInitialize]
+		public void OnInit()
+		{
+			_writer = new StringWriter();
+			_program = new Program(_writer);
+		}
+
 		[TestMethod]
 		public void ShouldDisplayHelpWhenNoParameter()
 		{
-			TextWriter writer = new StringWriter();
-			Program program = new Program(writer);
+			_program.Execute(null);
 
-			program.Execute(null);
-
-			string sortie = writer.ToString();
+			string sortie = _writer.ToString();
 
 			sortie.Should().Contain("Aide");
+		}
+
+		[TestMethod]
+		public void ShouldDisplayHelloWorldWhenCallingHello()
+		{
+			_program.Execute(new string[] { "Hello" });
+
+			string sortie = _writer.ToString();
+
+			sortie.Should().Contain("Hello World");
 		}
 	}
 }
