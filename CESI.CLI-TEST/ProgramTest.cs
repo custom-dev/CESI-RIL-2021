@@ -68,5 +68,25 @@ namespace CESI.CLI_TEST
 
 			sortie.Should().Be("-5\r\n");
 		}
+
+		[TestMethod]
+		public void ShouldMultiplyNumbers()
+		{
+			_program.Execute(new string[] { "Mul", "5", "10" });
+
+			string sortie = _writer.ToString();
+
+			sortie.Should().Be("50\r\n");
+		}
+
+		[TestMethod]
+		public void ShouldDivideNumbers()
+		{
+			_program.Execute(new string[] { "Div", "5", "10" });
+
+			string sortie = _writer.ToString();
+
+			sortie.Should().Be("0\r\n");
+		}
 	}
 }
