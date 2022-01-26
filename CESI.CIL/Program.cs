@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CESI.CLI.Actions;
+using System;
 using System.IO;
 
 namespace CESI.CLI
@@ -49,12 +50,18 @@ namespace CESI.CLI
 
 		private void ActionHello()
 		{
-			_writer.WriteLine("Hello World !");
+			ActionHello action = new ActionHello(_writer);
+			action.Execute(null);
 		}
 
 		private void DisplayHelp()
 		{
 			_writer.WriteLine("Aide");
+			_writer.WriteLine("Ensemble des commandes disponibles :");
+			_writer.WriteLine("- Hello");
+			_writer.WriteLine("- Add");
+			_writer.WriteLine("- Sub");
+
 		}
 
 		private static string ExtractActionName(string[] args)
@@ -64,20 +71,14 @@ namespace CESI.CLI
 
 		private void ActionAdd(string[] args)
 		{
-			int number1 = int.Parse(args[1]);
-			int number2 = int.Parse(args[2]);
-			int result = number1 + number2;
-
-			_writer.WriteLine(result.ToString());
+			ActionAdd action = new ActionAdd(_writer);
+			action.Execute(args);
 		}
 
 		private void ActionSub(string[] args)
 		{
-			int number1 = int.Parse(args[1]);
-			int number2 = int.Parse(args[2]);
-			int result = number1 - number2;
-
-			_writer.WriteLine(result.ToString());
+			ActionSub action = new ActionSub(_writer);
+			action.Execute(args);
 		}
 	}
 }
