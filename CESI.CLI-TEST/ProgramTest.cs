@@ -48,5 +48,15 @@ namespace CESI.CLI_TEST
 
 			sortie.Should().Contain("Commande inconnue");
 		}
+
+		[TestMethod]
+		public void ShouldAddNumbers()
+		{
+			_program.Execute(new string[] { "Add", "5", "10" });
+
+			string sortie = _writer.ToString();
+
+			sortie.Should().Be("15\r\n");
+		}
 	}
 }

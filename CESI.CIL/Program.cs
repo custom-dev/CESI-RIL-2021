@@ -30,6 +30,9 @@ namespace CESI.CLI
 				case "Hello":
 					ActionHello();
 					break;
+				case "Add":
+					ActionAdd(args);
+					break;
 				default:
 					ActionUnknown();
 					break;
@@ -54,6 +57,17 @@ namespace CESI.CLI
 		private static string ExtractActionName(string[] args)
 		{
 			return (args != null && args.Length > 0) ? args[0] : String.Empty;
+		}
+
+		private void ActionAdd(string[] args)
+		{
+			string s1 = args[1];
+			string s2 = args[2];
+			int number1 = int.Parse(s1);
+			int number2 = int.Parse(s2);
+			int result = number1 + number2;
+
+			_writer.WriteLine(result.ToString());
 		}
 	}
 }
