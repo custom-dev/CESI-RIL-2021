@@ -21,15 +21,34 @@ namespace CESI.CLI
 		public void Execute(string[] args)
 		{
 			string actionName = ExtractActionName(args);
+			
+			switch(actionName)
+			{
+				case "":
+					DisplayHelp();
+					break;
+				case "Hello":
+					ActionHello();
+					break;
+				default:
+					ActionUnknown();
+					break;
+			}										
+		}
 
-			if (actionName == "Hello")
-			{
-				_writer.WriteLine("Hello World !");
-			}
-			else
-			{
-				_writer.WriteLine("Aide");
-			}
+		private void ActionUnknown()
+		{
+			_writer.WriteLine("Commande inconnue");
+		}
+
+		private void ActionHello()
+		{
+			_writer.WriteLine("Hello World !");
+		}
+
+		private void DisplayHelp()
+		{
+			_writer.WriteLine("Aide");
 		}
 
 		private static string ExtractActionName(string[] args)

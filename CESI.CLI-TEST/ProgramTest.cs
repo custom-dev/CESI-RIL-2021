@@ -38,5 +38,15 @@ namespace CESI.CLI_TEST
 
 			sortie.Should().Contain("Hello World");
 		}
+
+		[TestMethod]
+		public void ShouldDisplayCommandeInconnueWhenUnknownAction()
+		{
+			_program.Execute(new string[] { "slkdhvsidh" });
+
+			string sortie = _writer.ToString();
+
+			sortie.Should().Contain("Commande inconnue");
+		}
 	}
 }
