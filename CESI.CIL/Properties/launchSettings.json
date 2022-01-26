@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ActionSub": {
+      "commandName": "Project",
+      "commandLineArgs": "Sub 5 1"
+    },
+    "ActionAdd": {
+      "commandName": "Project",
+      "commandLineArgs": "Add 1 4"
+    }
+  }
+}

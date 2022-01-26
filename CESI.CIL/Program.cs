@@ -1,6 +1,10 @@
 ﻿using CESI.CLI.Actions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace CESI.CLI
 {
@@ -22,25 +26,23 @@ namespace CESI.CLI
 		public void Execute(string[] args)
 		{
 			string actionName = ExtractActionName(args);
-			
-			switch(actionName)
+
+			if (String.IsNullOrEmpty(actionName))
 			{
-				case "":
-					DisplayHelp();
-					break;
-				case "Hello":
-					ActionHello();
-					break;
-				case "Add":
-					ActionAdd(args);
-					break;
-				case "Sub":
-					ActionSub(args);
-					break;
-				default:
-					ActionUnknown();
-					break;
-			}										
+				ActionAide action = new ActionAide(_writer);
+				action.Execute(null);
+			}
+
+			Dictionary<string, IAction> actions = GetActions();
+
+			if (actions.ContainsKey(actionName))
+			{
+				actions[actionName].Execute(args);
+			}
+			else
+			{
+				ActionUnknown();
+			}			
 		}
 
 		private void ActionUnknown()
@@ -48,33 +50,30 @@ namespace CESI.CLI
 			_writer.WriteLine("Commande inconnue");
 		}
 
-		private void ActionHello()
-		{
-			ActionHello action = new ActionHello(_writer);
-			action.Execute(null);
-		}
-
-		private void DisplayHelp()
-		{
-			ActionAide action = new ActionAide(_writer);
-			action.Execute(null);
-		}
-
 		private static string ExtractActionName(string[] args)
 		{
 			return (args != null && args.Length > 0) ? args[0] : String.Empty;
 		}
 
-		private void ActionAdd(string[] args)
+		private Dictionary<string, IAction> GetActions()
 		{
-			ActionAdd action = new ActionAdd(_writer);
-			action.Execute(args);
-		}
+			Dictionary<string, IAction> actions = new Dictionary<string, IAction>();
+		 	Assembly assembly = Assembly.GetExecutingAssembly();
+			IEnumerable<Type> actionTypes = assembly
+				.GetTypes()
+				.Where(x => x.IsClass && typeof(IAction).IsAssignableFrom(x));
+			ServiceCollection collection = new ServiceCollection();
+			collection.AddSingleton(typeof(TextWriter), _writer);
 
-		private void ActionSub(string[] args)
-		{
-			ActionSub action = new ActionSub(_writer);
-			action.Execute(args);
+			IServiceProvider services = collection.BuildServiceProvider();
+
+			foreach(Type actionType in actionTypes)
+			{
+				IAction action = ActivatorUtilities.CreateInstance(services, actionType) as IAction;
+				actions.Add(action.Name, action);
+			}
+			
+			return actions;
 		}
 	}
 }
