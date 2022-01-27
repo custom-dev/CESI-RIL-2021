@@ -13,32 +13,40 @@ namespace CESI.CLI_TEST
 	public class VieDeMerdeTests
 	{
 		private static string VIE_DE_MERDE_URL = "https://www.viedemerde.fr/";
+		private Mock<IUrlDownloader> _downloader;
+		private VieDeMerdeManager _manager;
+		private string _expectedHtml;
+
+		[TestInitialize]
+		public void Init()
+		{
+			_expectedHtml = GetVieDeMerdeHomePage();
+			_downloader = new Mock<IUrlDownloader>();
+			_manager = new VieDeMerdeManager(_downloader.Object);
+		}
 
 		[TestMethod]
 		public void ShouldDownloadLatestHtmlPage()
 		{
-			string expectedHtml = GetData("viedemerde.html");
-			Mock<IUrlDownloader> downloader = new Mock<IUrlDownloader>();
-			VieDeMerdeManager vdm;
+			string html;
 
-			downloader.Setup(x => x.DownloadHtml(VIE_DE_MERDE_URL)).Returns(expectedHtml);
-			vdm = new VieDeMerdeManager(downloader.Object);
+			_downloader.Setup(x => x.DownloadHtml(VIE_DE_MERDE_URL)).Returns(_expectedHtml);
+			html = _manager.DownloadLatestHtmlPage();
 
-			string html = vdm.DownloadLatestHtmlPage();
-
-			html.Should().Be(expectedHtml);
+			html.Should().Be(_expectedHtml);
 		}
 
 		[TestMethod]
 		public void ShouldExtractVDMFromHtml()
 		{
-			string html = GetData("viedemerde.html");
-			Mock<IUrlDownloader> downloader = new Mock<IUrlDownloader>();
-			VieDeMerdeManager vdm = new VieDeMerdeManager(downloader.Object);
-
-			IReadOnlyCollection<VieDeMerde> vdms = vdm.ExtractVDM(html);
+			IReadOnlyCollection<VieDeMerde> vdms = _manager.ExtractVDM(_expectedHtml);
 
 			vdms.Should().HaveCount(34);
+		}
+
+		private string GetVieDeMerdeHomePage()
+		{
+			return GetData("viedemerde.html");
 		}
 
 		private string GetData(string manifestName)
