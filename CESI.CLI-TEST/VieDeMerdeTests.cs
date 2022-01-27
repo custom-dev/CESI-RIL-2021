@@ -67,6 +67,17 @@ namespace CESI.CLI_TEST
 			vdm.Content.Should().StartWith("Aujourd'hui, je suis garée mais toujours dans ma voiture quand un conducteur");
 		}
 
+		[TestMethod]
+		public void ShouldExtractAuthor()
+		{
+			string html = GetData("viedemerde.html");
+			HtmlDocument doc = new HtmlDocument();
+			doc.LoadHtml(html);
+			VieDeMerde vdm = VieDeMerde.Parse(doc.DocumentNode);
+
+			vdm.Author.Should().Be("Anonyme");
+		}
+
 		private string GetVieDeMerdeHomePage()
 		{
 			return GetData("viedemerde_page.html");
