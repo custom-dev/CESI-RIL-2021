@@ -78,6 +78,18 @@ namespace CESI.CLI_TEST
 			vdm.Author.Should().Be("Anonyme");
 		}
 
+		[TestMethod]
+		public void ShouldExtractVotes()
+		{
+			string html = GetData("viedemerde.html");
+			HtmlDocument doc = new HtmlDocument();
+			doc.LoadHtml(html);
+			VieDeMerde vdm = VieDeMerde.Parse(doc.DocumentNode);
+
+			vdm.VDM.Should().Be(47);
+			vdm.TLBM.Should().Be(3);
+		}
+
 		private string GetVieDeMerdeHomePage()
 		{
 			return GetData("viedemerde_page.html");

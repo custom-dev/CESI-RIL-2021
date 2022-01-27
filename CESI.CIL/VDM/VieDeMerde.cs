@@ -20,13 +20,15 @@ namespace CESI.CLI.VDM
 			vdm.ExtractTitle(node);
 			vdm.ExtractContent(node);
 			vdm.ExtractAuthor(node);
-
+			vdm.ExtractVotes(node);
 			return vdm;
 		}
 
 		public string Title { get; private set; }
 		public string Content { get;private set; }
 		public string Author { get; private set; }
+		public int VDM { get;private set; }
+		public int TLBM { get;private set; }
 
 		private void ExtractTitle(HtmlNode node)
 		{
@@ -53,6 +55,15 @@ namespace CESI.CLI.VDM
 			{
 				this.Author = String.Empty;
 			}
+		}
+
+		private void ExtractVotes(HtmlNode node)
+		{
+			HtmlNodeCollection votes = node.SelectNodes("./article/div/div/span[contains(@class, 'vote-btn-count')]");
+			HtmlNode voteVDM = votes[0];
+			HtmlNode voteTLBM = votes[1];
+			this.VDM = int.Parse(voteVDM.InnerText);
+			this.TLBM = int.Parse(voteTLBM.InnerText);
 		}
 	}
 }
