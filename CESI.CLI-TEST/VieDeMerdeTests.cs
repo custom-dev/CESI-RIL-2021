@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -26,6 +27,18 @@ namespace CESI.CLI_TEST
 			string html = vdm.DownloadLatestHtmlPage();
 
 			html.Should().Be(expectedHtml);
+		}
+
+		[TestMethod]
+		public void ShouldExtractVDMFromHtml()
+		{
+			string html = GetData("viedemerde.html");
+			Mock<IUrlDownloader> downloader = new Mock<IUrlDownloader>();
+			VieDeMerdeManager vdm = new VieDeMerdeManager(downloader.Object);
+
+			IReadOnlyCollection<VieDeMerde> vdms = vdm.ExtractVDM(html);
+
+			vdms.Should().HaveCount(34);
 		}
 
 		private string GetData(string manifestName)

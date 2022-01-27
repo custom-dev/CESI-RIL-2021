@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,16 @@ namespace CESI.CLI.VDM
 		public string DownloadLatestHtmlPage()
 		{
 			return _downloader.DownloadHtml(VIE_DE_MERDE_URL);
+		}
+
+		public IReadOnlyCollection<VieDeMerde> ExtractVDM(string html)
+		{
+			HtmlDocument doc = new HtmlDocument();
+			HtmlNodeCollection articles;
+
+			doc.LoadHtml(html);
+			articles = doc.DocumentNode.SelectNodes("//article");
+			return articles.Select(x => new VieDeMerde()).ToArray();
 		}
 	}
 }
