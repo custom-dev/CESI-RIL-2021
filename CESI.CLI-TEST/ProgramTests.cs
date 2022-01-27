@@ -7,7 +7,7 @@ using System.IO;
 namespace CESI.CLI_TEST
 {
 	[TestClass]
-	public class ProgramTest
+	public class ProgramTests
 	{
 		private TextWriter _writer;
 		private Program _program;
