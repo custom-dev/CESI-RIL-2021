@@ -1,5 +1,6 @@
 ﻿using CESI.CLI.VDM;
 using FluentAssertions;
+using HtmlAgilityPack;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -44,9 +45,31 @@ namespace CESI.CLI_TEST
 			vdms.Should().HaveCount(34);
 		}
 
+		[TestMethod]
+		public void ShouldExtractVDMTitle()
+		{
+			string html = GetData("viedemerde.html");
+			HtmlDocument doc = new HtmlDocument();
+			doc.LoadHtml(html);
+			VieDeMerde vdm = VieDeMerde.Parse(doc.DocumentNode);
+
+			vdm.Title.Should().Be("Pensée magique");
+		}
+
+		[TestMethod]
+		public void ShouldExtractVDMContent()
+		{
+			string html = GetData("viedemerde.html");
+			HtmlDocument doc = new HtmlDocument();
+			doc.LoadHtml(html);
+			VieDeMerde vdm = VieDeMerde.Parse(doc.DocumentNode);
+
+			vdm.Content.Should().StartWith("Aujourd'hui, je suis garée mais toujours dans ma voiture quand un conducteur");
+		}
+
 		private string GetVieDeMerdeHomePage()
 		{
-			return GetData("viedemerde.html");
+			return GetData("viedemerde_page.html");
 		}
 
 		private string GetData(string manifestName)
