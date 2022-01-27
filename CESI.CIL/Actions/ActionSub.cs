@@ -7,26 +7,17 @@ using System.Threading.Tasks;
 
 namespace CESI.CLI.Actions
 {
-	public class ActionSub : IAction
+	public class ActionSub : BaseOperationAction
 	{
-		private TextWriter _writer;
+		public ActionSub(TextWriter writer) : base(writer) { }
+		
+		public override string Name => "Sub";
 
-		public ActionSub(TextWriter writer)
+		public override string Description => "Soustrait deux entiers";
+
+		protected override int Compute(int number1, int number2)
 		{
-			_writer = writer;
-		}
-
-		public string Name => "Sub";
-
-		public string Description => "Soustrait deux entiers";
-
-		public void Execute(string[] args)
-		{
-			int number1 = int.Parse(args[1]);
-			int number2 = int.Parse(args[2]);
-			int result = number1 - number2;
-
-			_writer.WriteLine(result.ToString());
-		}
+			return number1 - number2;
+		}		
 	}
 }

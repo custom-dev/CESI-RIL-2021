@@ -61,7 +61,7 @@ namespace CESI.CLI
 		 	Assembly assembly = Assembly.GetExecutingAssembly();
 			IEnumerable<Type> actionTypes = assembly
 				.GetTypes()
-				.Where(x => x.IsClass && typeof(IAction).IsAssignableFrom(x));
+				.Where(x => x.IsClass && !x.IsAbstract && typeof(IAction).IsAssignableFrom(x));
 			ServiceCollection collection = new ServiceCollection();
 			collection.AddSingleton(typeof(TextWriter), _writer);
 

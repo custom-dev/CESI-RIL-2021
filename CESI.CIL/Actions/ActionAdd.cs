@@ -7,26 +7,17 @@ using System.Threading.Tasks;
 
 namespace CESI.CLI.Actions
 {
-	public class ActionAdd : IAction
+	public class ActionAdd : BaseOperationAction
 	{
-		private TextWriter _writer;
+		public ActionAdd(TextWriter writer): base(writer) { }
 
-		public ActionAdd(TextWriter writer)
+		public override string Name => "Add";
+
+		public override string Description => "Ajoute deux entiers";
+
+		protected override int Compute(int number1, int number2)
 		{
-			_writer = writer;
-		}
-
-		public string Name => "Add";
-
-		public string Description => "Ajoute deux entiers";
-
-		public void Execute(string[] args)
-		{
-			int number1 = int.Parse(args[1]);
-			int number2 = int.Parse(args[2]);
-			int result = number1 + number2;
-
-			_writer.WriteLine(result.ToString());
+			return number1 + number2;
 		}
 	}
 }

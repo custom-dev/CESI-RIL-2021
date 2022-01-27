@@ -7,26 +7,17 @@ using System.Threading.Tasks;
 
 namespace CESI.CLI.Actions
 {
-	public class ActionDiv : IAction
+	public class ActionDiv : BaseOperationAction
 	{
-		private TextWriter _writer;
+		public ActionDiv(TextWriter writer) : base(writer) { }
 
-		public ActionDiv(TextWriter writer)
+		public override string Name => "Div";
+
+		public override string Description => "Multiplie 2 entiers";
+
+		protected override int Compute(int number1, int number2)
 		{
-			_writer = writer;
-		}
-
-		public string Name => "Div";
-
-		public string Description => "Multiplie 2 entiers";
-
-		public void Execute(string[] args)
-		{
-			int number1 = int.Parse(args[1]);
-			int number2 = int.Parse(args[2]);
-			int result = number1 / number2;
-
-			_writer.WriteLine(result.ToString());
-		}
+			return number1 / number2;
+		}		
 	}
 }
